@@ -1,6 +1,7 @@
 use actix_web::{error::ResponseError, HttpResponse};
 use diesel::result::Error as DBError;
-use juniper::graphql_value;
+use std::io::Error as IOError;
+use actix_web::error::BlockingError;
 use std::convert::From;
 use thiserror::Error;
 
@@ -19,37 +20,6 @@ pub enum ServiceError {
     UnableToConnectToDb,
 }
 
-impl juniper::IntoFieldError for ServiceError {
-    fn into_field_error(self) -> juniper::FieldError {
-        match self {
-            ServiceError::Unauthorized => juniper::FieldError::new(
-                "Unauthorized",
-                graphql_value!({
-                    "type": "NO_ACCESS"
-                }),
-            ),
-            ServiceError::BadRequest(s) => juniper::FieldError::new(
-                s,
-                graphql_value!({
-                    "type": "BAD_REQUEST"
-                }),
-            ),
-            ServiceError::InternalServerError => juniper::FieldError::new(
-                "Internal Error",
-                graphql_value!({
-                    "type": "INTERNAL_ERROR"
-                }),
-            ),
-            ServiceError::UnableToConnectToDb => juniper::FieldError::new(
-                "Unable to connect to DB",
-                graphql_value!({
-                    "type": "DB_CONNECTION_ERROR"
-                }),
-            ),
-        }
-    }
-}
-
 // impl ResponseError trait allows to convert our errors into http responses with appropriate data
 impl ResponseError for ServiceError {
     fn error_response(&self) -> HttpResponse {
@@ -65,7 +35,7 @@ impl ResponseError for ServiceError {
     }
 }
 
-// we can return early in our handlers if UUID provided by the user is not valid
+// we can return early in our handlers if UUID is not valid
 // and provide a custom message
 impl From<uuid::parser::ParseError> for ServiceError {
     fn from(_: uuid::parser::ParseError) -> ServiceError {
@@ -83,6 +53,31 @@ impl From<DBError> for ServiceError {
                 ServiceError::BadRequest(message)
             }
             _ => ServiceError::InternalServerError,
+        }
+    }
+}
+
+impl From<IOError> for ServiceError {
+    fn from(error: IOError) -> ServiceError {
+        match error.kind() {
+            std::io::ErrorKind::NotFound => {
+                let message = "An entity was not found, often a file.".to_string();
+                ServiceError::BadRequest(message)
+            },
+            _ => {
+                let message = "Something went wrong with file analysis, please check your format.".to_string();
+                ServiceError::BadRequest(message)
+            },
+        }
+    }
+}
+
+impl From<BlockingError<ServiceError>> for ServiceError {
+    fn from(error: BlockingError<ServiceError>) -> ServiceError {
+        match error {
+            // If not canceled, then return the raw error.
+            BlockingError::Error(e) => e,
+            BlockingError::Canceled => ServiceError::InternalServerError,
         }
     }
 }
