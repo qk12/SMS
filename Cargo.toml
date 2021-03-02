@@ -1,9 +1,8 @@
 [package]
-name = "canduma"
+name = "SMS"
 version = "0.2.0"
 authors = [
-    "Julien Lenne <contact.lenne@gmail.com>",
-    "Sylvain Tedoldi <sylvain.foss@contact.tedoldi.fr>",
+    "qk12",
 ]
 edition = "2018"
 
@@ -16,8 +15,6 @@ futures = "0.3.5"
 
 diesel = { version = "1.4", features = ["postgres", "uuidv07", "chrono", "r2d2"] }
 r2d2 = "0.8"
-
-juniper = "0.14"
 
 uuid = { version = "0.7", features = ["serde", "v4"] }
 time = "0.2"
@@ -33,7 +30,6 @@ serde_json = "1.0"
 
 rand = "0.7"
 argon2rs = "0.2"
-jsonwebtoken = "=7.0.0-alpha.2"
 
 anyhow = "1.0"
 thiserror = "1.0"

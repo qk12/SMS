@@ -8,10 +8,10 @@ extern crate log;
 mod cli_args;
 mod database;
 mod errors;
-mod graphql;
-mod jwt;
 mod schema;
-mod user;
+mod controllers;
+mod models;
+mod services;
 
 use actix_identity::{CookieIdentityPolicy, IdentityService};
 use actix_web::middleware::Logger;
@@ -33,7 +33,6 @@ async fn main() -> std::io::Result<()> {
 
     // Database
     let pool = database::pool::establish_connection(opt.clone());
-    let schema = std::sync::Arc::new(crate::graphql::model::create_schema());
 
     // Authorisation
     let domain = opt.domain.clone();
@@ -46,13 +45,10 @@ async fn main() -> std::io::Result<()> {
 
     // Server
     let server = HttpServer::new(move || {
-        // prevents double Arc
-        let schema: web::Data<graphql::model::Schema> = schema.clone().into();
 
         App::new()
             // Database
             .data(pool.clone())
-            .app_data(schema)
             // Options
             .data(opt.clone())
             // Error logging
@@ -69,8 +65,7 @@ async fn main() -> std::io::Result<()> {
                     .secure(secure_cookie),
             ))
             // Sets routes via secondary files
-            .configure(user::route)
-            .configure(graphql::route)
+            .service(controllers::login)
     })
     // Running at `format!("{}:{}",port,"0.0.0.0")`
     .bind(("127.0.0.1", port))
