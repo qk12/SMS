@@ -7,7 +7,7 @@ use crate::services;
 
 #[derive(Deserialize)]
 pub struct LoginBody {
-    userName: String,
+    username: String,
     password: String,
 }
 
@@ -17,7 +17,7 @@ pub async fn login(
     pool: web::Data<Pool>,
 ) -> Result<HttpResponse, ServiceError> {
     let res = web::block(move || services::login(
-        body.userName.clone(), 
+        body.username.clone(), 
         body.password.clone(), 
         pool
     )).await.map_err(|e| {

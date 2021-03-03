@@ -18,7 +18,7 @@ table! {
 }
 
 table! {
-    openclass (kh, gh, xq) {
+    openclass (xq, kh, gh) {
         xq -> Varchar,
         kh -> Bpchar,
         gh -> Bpchar,

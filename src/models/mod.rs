@@ -12,3 +12,13 @@ pub struct Student {
     sjhm: String,
     yxh: String,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
+pub struct Teacher {
+    gh: String,
+    xm: String,
+    xb: String,
+    csrq: String,
+    zc: Option<String>,
+    yxh: String,
+}
