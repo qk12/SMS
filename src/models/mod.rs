@@ -1,5 +1,6 @@
 // 这里声明用于ORM的结构体
 
+use crate::schema::*;
 use chrono::NaiveDate;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
@@ -21,4 +22,11 @@ pub struct Teacher {
     csrq: String,
     zc: Option<String>,
     yxh: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Queryable, QueryableByName)]
+#[table_name = "terms"]
+pub struct Term {
+    pub term: String,
+    id: i32,
 }

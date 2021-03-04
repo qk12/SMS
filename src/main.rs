@@ -6,11 +6,11 @@ extern crate serde_derive;
 extern crate log;
 
 mod cli_args;
+mod controllers;
 mod database;
 mod errors;
-mod schema;
-mod controllers;
 mod models;
+mod schema;
 mod services;
 
 use actix_identity::{CookieIdentityPolicy, IdentityService};
@@ -45,7 +45,6 @@ async fn main() -> std::io::Result<()> {
 
     // Server
     let server = HttpServer::new(move || {
-
         App::new()
             // Database
             .data(pool.clone())
@@ -66,6 +65,7 @@ async fn main() -> std::io::Result<()> {
             ))
             // Sets routes via secondary files
             .service(controllers::login)
+            .service(controllers::get_terms)
     })
     // Running at `format!("{}:{}",port,"0.0.0.0")`
     .bind(("127.0.0.1", port))

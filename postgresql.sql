@@ -115,9 +115,9 @@ VALUES
 -- 学期表 term
 CREATE TABLE term 
 (
-  term varchar(255)  NOT NULL,
-  id serial NOT NULL,
-  primary key (id)
+    termname varchar(255) NOT NULL,
+    id serial NOT NULL,
+    primary key (id)
 );
 
 -- Records of term

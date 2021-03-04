@@ -50,6 +50,13 @@ table! {
 }
 
 table! {
+    terms (id) {
+        term -> Varchar,
+        id -> Int4,
+    }
+}
+
+table! {
     xuanketable (xh, xq, kh, gh) {
         xh -> Bpchar,
         xq -> Varchar,
@@ -71,5 +78,6 @@ allow_tables_to_appear_in_same_query!(
     openclass,
     student,
     teacher,
+    terms,
     xuanketable,
 );
