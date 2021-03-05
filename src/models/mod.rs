@@ -6,20 +6,20 @@ use chrono::NaiveDate;
 #[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
 pub struct Student {
     xh: String,
-    xm: String,
-    xb: String,
+    xm: Option<String>,
+    xb: Option<String>,
     csrq: Option<NaiveDate>,
     jg: Option<String>,
-    sjhm: String,
+    sjhm: Option<String>,
     yxh: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
 pub struct Teacher {
     gh: String,
-    xm: String,
-    xb: String,
-    csrq: String,
+    xm: Option<String>,
+    xb: Option<String>,
+    csrq: Option<NaiveDate>,
     zc: Option<String>,
     yxh: String,
 }
@@ -29,4 +29,14 @@ pub struct Teacher {
 pub struct Term {
     pub term: String,
     id: i32,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
+pub struct Openclass {
+    xq: String,
+    km: Option<String>,
+    kh: String,
+    sksj: Option<String>,
+    xm: Option<String>,
+    gh: String,
 }

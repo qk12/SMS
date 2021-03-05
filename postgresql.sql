@@ -24,7 +24,7 @@ create table teacher
     xb char(4),
     csrq date,
     zc varchar(100) ,
-    yxh char(2),
+    yxh char(2) not null,
     primary key (gh),
     foreign key (yxh) references Department(yxh)
 );

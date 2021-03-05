@@ -11,9 +11,9 @@ table! {
 table! {
     department (yxh) {
         yxh -> Bpchar,
-        mc -> Varchar,
-        dz -> Varchar,
-        lxdh -> Varchar,
+        mc -> Nullable<Varchar>,
+        dz -> Nullable<Varchar>,
+        lxdh -> Nullable<Varchar>,
     }
 }
 
@@ -29,11 +29,11 @@ table! {
 table! {
     student (xh) {
         xh -> Bpchar,
-        xm -> Varchar,
-        xb -> Bpchar,
+        xm -> Nullable<Varchar>,
+        xb -> Nullable<Bpchar>,
         csrq -> Nullable<Date>,
         jg -> Nullable<Varchar>,
-        sjhm -> Varchar,
+        sjhm -> Nullable<Varchar>,
         yxh -> Bpchar,
     }
 }
@@ -41,9 +41,9 @@ table! {
 table! {
     teacher (gh) {
         gh -> Bpchar,
-        xm -> Varchar,
-        xb -> Bpchar,
-        csrq -> Bpchar,
+        xm -> Nullable<Varchar>,
+        xb -> Nullable<Bpchar>,
+        csrq -> Nullable<Date>,
         zc -> Nullable<Varchar>,
         yxh -> Bpchar,
     }

@@ -36,3 +36,22 @@ pub async fn get_terms(pool: web::Data<Pool>) -> Result<HttpResponse, ServiceErr
         })?;
     Ok(HttpResponse::Ok().json(res))
 }
+
+#[derive(Deserialize)]
+pub struct OpenClassParams {
+    term: String,
+}
+
+#[get("/api/openCourse")]
+pub async fn opencourse(
+    query: web::Query<OpenClassParams>,
+    pool: web::Data<Pool>,
+) -> Result<HttpResponse, ServiceError> {
+    let res = web::block(move || services::opencourse(query.term.clone(), pool))
+        .await
+        .map_err(|e| {
+            eprintln!("{}", e);
+            e
+        })?;
+    Ok(HttpResponse::Ok().json(res))
+}

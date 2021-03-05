@@ -66,6 +66,7 @@ async fn main() -> std::io::Result<()> {
             // Sets routes via secondary files
             .service(controllers::login)
             .service(controllers::get_terms)
+            .service(controllers::opencourse)
     })
     // Running at `format!("{}:{}",port,"0.0.0.0")`
     .bind(("127.0.0.1", port))

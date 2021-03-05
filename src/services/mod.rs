@@ -3,6 +3,7 @@
 use crate::database::{db_connection, Pool};
 use crate::errors::{ServiceError, ServiceResult};
 use crate::models::*;
+use crate::schema::*;
 use actix_web::web;
 use diesel::prelude::*;
 use diesel::sql_query;
@@ -32,12 +33,6 @@ pub fn login(
         Ok(teacher) => Some(teacher),
         _ => None,
     };
-    /*
-    let res: serde_json::Value = if try_student.is_some() {
-        serde_json::to_value(try_student.unwrap()).unwrap()
-    } else {
-        serde_json::to_value(try_teacher.unwrap()).unwrap()
-    };*/
 
     let res: serde_json::Value = if try_student.is_some() {
         json!({
@@ -76,6 +71,30 @@ pub fn get_terms(pool: web::Data<Pool>) -> ServiceResult<serde_json::Value> {
             "terms":v,
             "nowTerm":v.last().unwrap()
         }
+    });
+
+    Ok(res)
+}
+
+pub fn opencourse(term: String, pool: web::Data<Pool>) -> ServiceResult<serde_json::Value> {
+    let conn = &db_connection(&pool)?;
+
+    let data = openclass::table
+        .inner_join(teacher::table.on(openclass::gh.eq(teacher::gh)))
+        .inner_join(class::table.on(openclass::kh.eq(class::kh)))
+        .filter(openclass::xq.eq(term.clone()))
+        .select((
+            openclass::xq,
+            class::km,
+            openclass::kh,
+            openclass::sksj,
+            teacher::xm,
+            teacher::gh,
+        ))
+        .load::<Openclass>(conn)?;
+
+    let res: serde_json::Value = json!({
+        "res" :serde_json::to_value(data).unwrap()
     });
 
     Ok(res)
