@@ -64,9 +64,20 @@ async fn main() -> std::io::Result<()> {
                     .secure(secure_cookie),
             ))
             // Sets routes via secondary files
-            .service(controllers::login)
-            .service(controllers::get_terms)
-            .service(controllers::opencourse)
+            .configure(controllers::route)
+
+        /*
+        .service(controllers::login)
+        .service(controllers::opencourse)
+        .service(controllers::course_table)
+        .service(controllers::report_card)
+        .service(controllers::get_students)
+        .service(controllers::get_terms)
+        .service(controllers::choose_course)
+        .service(controllers::drop_course)
+        .service(controllers::get_classes)
+        .service(controllers::teacher_open_class)
+        .service(controllers::manage_course)*/
     })
     // Running at `format!("{}:{}",port,"0.0.0.0")`
     .bind(("127.0.0.1", port))

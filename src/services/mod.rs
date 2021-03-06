@@ -1,101 +1,33 @@
 // 这里写数据查询和处理逻辑
+mod login;
+pub(crate) use login::login;
 
-use crate::database::{db_connection, Pool};
-use crate::errors::{ServiceError, ServiceResult};
-use crate::models::*;
-use crate::schema::*;
-use actix_web::web;
-use diesel::prelude::*;
-use diesel::sql_query;
-use serde_json::json;
+mod get_terms;
+pub(crate) use get_terms::get_terms;
 
-pub fn login(
-    username: String,
-    password: String,
-    pool: web::Data<Pool>,
-) -> ServiceResult<serde_json::Value> {
-    let conn = &db_connection(&pool)?;
+mod get_classes;
+pub(crate) use get_classes::get_classes;
 
-    use crate::schema::student as student_schema;
-    let try_student: Option<Student> = match student_schema::table
-        .filter(student_schema::xh.eq(username.clone()))
-        .first(conn)
-    {
-        Ok(student) => Some(student),
-        _ => None,
-    };
+mod opencourse;
+pub(crate) use opencourse::opencourse;
 
-    use crate::schema::teacher as teacher_schema;
-    let try_teacher: Option<Teacher> = match teacher_schema::table
-        .filter(teacher_schema::gh.eq(username.clone()))
-        .first(conn)
-    {
-        Ok(teacher) => Some(teacher),
-        _ => None,
-    };
+mod course_table;
+pub(crate) use course_table::{get_student_course_table, get_teacher_course_table};
 
-    let res: serde_json::Value = if try_student.is_some() {
-        json!({
-            "res":{
-                "role":"student",
-                "userInfo":serde_json::to_value(try_student.unwrap()).unwrap()
-            }
-        })
-    } else {
-        json!({
-            "res":{
-                "role":"teacher",
-                "userInfo":serde_json::to_value(try_teacher.unwrap()).unwrap()
-            }
-        })
-    };
+mod get_students;
+pub(crate) use get_students::get_students;
 
-    Ok(res)
-}
+mod report_card;
+pub(crate) use report_card::{get_student_report_card, get_teacher_report_card};
 
-pub fn get_terms(pool: web::Data<Pool>) -> ServiceResult<serde_json::Value> {
-    let conn = &db_connection(&pool)?;
+mod choose_course;
+pub(crate) use choose_course::choose_course;
 
-    //use crate::schema::term as term_schema;
-    //let terms: Vec<Term> = term_schema::table.load::<Term>(conn)?;
+mod drop_course;
+pub(crate) use drop_course::drop_course;
 
-    let terms = sql_query("select * from terms order by id asc").load::<Term>(conn)?;
+mod manage_grade;
+pub(crate) use manage_grade::manage_grade;
 
-    let mut v: Vec<String> = Vec::new();
-    for i in terms {
-        v.push(i.term)
-    }
-
-    let res: serde_json::Value = json!({
-        "res":{
-            "terms":v,
-            "nowTerm":v.last().unwrap()
-        }
-    });
-
-    Ok(res)
-}
-
-pub fn opencourse(term: String, pool: web::Data<Pool>) -> ServiceResult<serde_json::Value> {
-    let conn = &db_connection(&pool)?;
-
-    let data = openclass::table
-        .inner_join(teacher::table.on(openclass::gh.eq(teacher::gh)))
-        .inner_join(class::table.on(openclass::kh.eq(class::kh)))
-        .filter(openclass::xq.eq(term.clone()))
-        .select((
-            openclass::xq,
-            class::km,
-            openclass::kh,
-            openclass::sksj,
-            teacher::xm,
-            teacher::gh,
-        ))
-        .load::<Openclass>(conn)?;
-
-    let res: serde_json::Value = json!({
-        "res" :serde_json::to_value(data).unwrap()
-    });
-
-    Ok(res)
-}
+mod teacher_open_class;
+pub(crate) use teacher_open_class::teacher_open_class;

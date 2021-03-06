@@ -62,7 +62,7 @@ table! {
         xq -> Varchar,
         kh -> Bpchar,
         gh -> Bpchar,
-        cj -> Nullable<Int4>,
+        zpcj -> Nullable<Int4>,
     }
 }
 
