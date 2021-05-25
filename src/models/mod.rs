@@ -1,14 +1,14 @@
 // 这里声明用于ORM的结构体
 
 use crate::schema::*;
-use chrono::NaiveDate;
+use chrono::NaiveDateTime;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
 pub struct Student {
     xh: String,
     xm: Option<String>,
     xb: Option<String>,
-    csrq: Option<NaiveDate>,
+    csrq: Option<NaiveDateTime>,
     jg: Option<String>,
     sjhm: Option<String>,
     yxh: String,
@@ -19,7 +19,7 @@ pub struct StudentInfo {
     xh: String,
     xm: Option<String>,
     xb: Option<String>,
-    csrq: Option<NaiveDate>,
+    csrq: Option<NaiveDateTime>,
     jg: Option<String>,
     sjhm: Option<String>,
     mc: Option<String>,
@@ -30,7 +30,7 @@ pub struct Teacher {
     gh: String,
     xm: Option<String>,
     xb: Option<String>,
-    csrq: Option<NaiveDate>,
+    csrq: Option<NaiveDateTime>,
     zc: Option<String>,
     yxh: String,
 }

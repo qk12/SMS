@@ -139,7 +139,7 @@ create table xuankeTable
     xq varchar(100) not null,
     kh char(8) not null,
     gh char(4) not null,
-    cj int check(1<=cj and cj<=100),
+    zpcj int check(1<=zpcj and zpcj<=100),
 
     primary key (xh, xq, kh, gh)
 );

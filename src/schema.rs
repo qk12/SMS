@@ -31,7 +31,7 @@ table! {
         xh -> Bpchar,
         xm -> Nullable<Varchar>,
         xb -> Nullable<Bpchar>,
-        csrq -> Nullable<Date>,
+        csrq -> Nullable<Timestamp>,
         jg -> Nullable<Varchar>,
         sjhm -> Nullable<Varchar>,
         yxh -> Bpchar,
@@ -43,7 +43,7 @@ table! {
         gh -> Bpchar,
         xm -> Nullable<Varchar>,
         xb -> Nullable<Bpchar>,
-        csrq -> Nullable<Date>,
+        csrq -> Nullable<Timestamp>,
         zc -> Nullable<Varchar>,
         yxh -> Bpchar,
     }
