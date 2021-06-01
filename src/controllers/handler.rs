@@ -25,16 +25,6 @@ pub async fn login(
     Ok(HttpResponse::Ok().json(res))
 }
 
-pub async fn get_terms(pool: web::Data<Pool>) -> Result<HttpResponse, ServiceError> {
-    let res = web::block(move || services::get_terms(pool))
-        .await
-        .map_err(|e| {
-            eprintln!("{}", e);
-            e
-        })?;
-    Ok(HttpResponse::Ok().json(res))
-}
-
 pub async fn get_classes(pool: web::Data<Pool>) -> Result<HttpResponse, ServiceError> {
     let res = web::block(move || services::get_classes(pool))
         .await
@@ -127,15 +117,7 @@ pub async fn course_table(
     Ok(HttpResponse::Ok().json(res))
 }
 
-pub async fn get_students(pool: web::Data<Pool>) -> Result<HttpResponse, ServiceError> {
-    let res = web::block(move || services::get_students(pool))
-        .await
-        .map_err(|e| {
-            eprintln!("{}", e);
-            e
-        })?;
-    Ok(HttpResponse::Ok().json(res))
-}
+
 
 #[derive(Deserialize)]
 pub struct ReportCardParams {

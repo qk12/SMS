@@ -1,9 +1,12 @@
 // 这里写数据查询和处理逻辑
+pub mod student;
+pub mod teacher;
+pub mod department;
+pub mod term;
+pub mod admin;
+
 mod login;
 pub(crate) use login::login;
-
-mod get_terms;
-pub(crate) use get_terms::get_terms;
 
 mod get_classes;
 pub(crate) use get_classes::get_classes;
@@ -13,9 +16,6 @@ pub(crate) use opencourse::opencourse;
 
 mod course_table;
 pub(crate) use course_table::{get_student_course_table, get_teacher_course_table};
-
-mod get_students;
-pub(crate) use get_students::get_students;
 
 mod report_card;
 pub(crate) use report_card::{get_student_report_card, get_teacher_report_card};

@@ -12,6 +12,7 @@ mod errors;
 mod models;
 mod schema;
 mod services;
+mod statics;
 
 use actix_identity::{CookieIdentityPolicy, IdentityService};
 use actix_web::middleware::Logger;
@@ -65,19 +66,11 @@ async fn main() -> std::io::Result<()> {
             ))
             // Sets routes via secondary files
             .configure(controllers::route)
-
-        /*
-        .service(controllers::login)
-        .service(controllers::opencourse)
-        .service(controllers::course_table)
-        .service(controllers::report_card)
-        .service(controllers::get_students)
-        .service(controllers::get_terms)
-        .service(controllers::choose_course)
-        .service(controllers::drop_course)
-        .service(controllers::get_classes)
-        .service(controllers::teacher_open_class)
-        .service(controllers::manage_course)*/
+            .configure(controllers::students::route)
+            .configure(controllers::teachers::route)
+            .configure(controllers::departments::route)
+            .configure(controllers::terms::route)
+            .configure(controllers::admins::route)
     })
     // Running at `format!("{}:{}",port,"0.0.0.0")`
     .bind(("127.0.0.1", port))

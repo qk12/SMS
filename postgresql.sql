@@ -16,6 +16,20 @@ VALUES
 ('03','材料学院','上大东校区四号楼','65347890');
 
 
+--管理员
+create table admin
+(
+    account varchar(100) not null,
+    password varchar(100),
+    primary key (account)
+);
+
+INSERT INTO 
+admin
+VALUES
+('admin', 'admin');
+
+
 --教师表
 create table teacher
 (
@@ -140,7 +154,6 @@ create table xuankeTable
     kh char(8) not null,
     gh char(4) not null,
     zpcj int check(1<=zpcj and zpcj<=100),
-
     primary key (xh, xq, kh, gh)
 );
 

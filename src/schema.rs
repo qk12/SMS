@@ -1,4 +1,11 @@
 table! {
+    admin (account) {
+        account -> Varchar,
+        password -> Nullable<Varchar>,
+    }
+}
+
+table! {
     class (kh) {
         kh -> Bpchar,
         km -> Nullable<Varchar>,
@@ -73,6 +80,7 @@ joinable!(student -> department (yxh));
 joinable!(teacher -> department (yxh));
 
 allow_tables_to_appear_in_same_query!(
+    admin,
     class,
     department,
     openclass,

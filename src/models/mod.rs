@@ -1,46 +1,13 @@
 // 这里声明用于ORM的结构体
+pub mod students;
+pub mod teachers;
+pub mod departments;
+pub mod admin;
+pub mod terms;
 
 use crate::schema::*;
 use chrono::NaiveDateTime;
 
-#[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
-pub struct Student {
-    xh: String,
-    xm: Option<String>,
-    xb: Option<String>,
-    csrq: Option<NaiveDateTime>,
-    jg: Option<String>,
-    sjhm: Option<String>,
-    yxh: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
-pub struct StudentInfo {
-    xh: String,
-    xm: Option<String>,
-    xb: Option<String>,
-    csrq: Option<NaiveDateTime>,
-    jg: Option<String>,
-    sjhm: Option<String>,
-    mc: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
-pub struct Teacher {
-    gh: String,
-    xm: Option<String>,
-    xb: Option<String>,
-    csrq: Option<NaiveDateTime>,
-    zc: Option<String>,
-    yxh: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, Queryable, QueryableByName)]
-#[table_name = "terms"]
-pub struct Term {
-    pub term: String,
-    id: i32,
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
 pub struct Openclass {
@@ -106,11 +73,11 @@ pub struct ChooseCourse {
 
 #[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
 pub struct Class {
-    kh: String,
-    km: Option<String>,
-    xf: Option<i32>,
-    xs: Option<i32>,
-    yxh: Option<String>,
+    pub kh: String,
+    pub km: Option<String>,
+    pub xf: Option<i32>,
+    pub xs: Option<i32>,
+    pub yxh: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -127,3 +94,4 @@ impl From<Class> for SlimClass {
         }
     }
 }
+
