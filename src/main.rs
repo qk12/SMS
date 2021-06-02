@@ -14,6 +14,7 @@ mod schema;
 mod services;
 mod statics;
 
+use crate::statics::*;
 use actix_identity::{CookieIdentityPolicy, IdentityService};
 use actix_web::middleware::Logger;
 use actix_web::{web, App, HttpServer};
@@ -44,6 +45,10 @@ async fn main() -> std::io::Result<()> {
     // Server port
     let port = opt.port;
 
+    unsafe {
+        NOW_TERM = "2013-2014 冬季".to_string();
+    }
+
     // Server
     let server = HttpServer::new(move || {
         App::new()
@@ -71,6 +76,7 @@ async fn main() -> std::io::Result<()> {
             .configure(controllers::departments::route)
             .configure(controllers::terms::route)
             .configure(controllers::admins::route)
+            .configure(controllers::classes::route)
     })
     // Running at `format!("{}:{}",port,"0.0.0.0")`
     .bind(("127.0.0.1", port))

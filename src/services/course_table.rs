@@ -33,6 +33,7 @@ pub fn get_student_course_table(
             openclass::sksj,
             teacher::xm,
             teacher::gh,
+            openclass::num,
         ))
         .load::<StudentCourseTable>(conn)?;
 

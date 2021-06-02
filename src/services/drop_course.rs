@@ -4,6 +4,7 @@ use crate::models::*;
 use crate::schema::xuanketable;
 use actix_web::web;
 use diesel::prelude::*;
+use diesel::sql_query;
 use serde_json::json;
 
 pub fn drop_course(
@@ -42,6 +43,10 @@ pub fn drop_course(
         )
         .execute(conn)
         .unwrap();
+
+        sql_query(format!("call change_num('{}', '{}', '{}', -1)", xq, kh, gh))
+            .execute(conn)
+            .unwrap();
     }
 
     let res: serde_json::Value = if data.is_some() {

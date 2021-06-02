@@ -20,6 +20,7 @@ pub fn opencourse(term: String, pool: web::Data<Pool>) -> ServiceResult<serde_js
             openclass::sksj,
             teacher::xm,
             teacher::gh,
+            openclass::num,
         ))
         .load::<Openclass>(conn)?;
 

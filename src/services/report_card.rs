@@ -20,7 +20,12 @@ pub fn get_student_report_card(
                 .eq(xh.clone())
                 .and(xuanketable::xq.eq(term.clone())),
         )
-        .select((xuanketable::kh, class::km, xuanketable::zpcj))
+        .select((
+            xuanketable::kh,
+            class::km,
+            xuanketable::zpcj,
+            xuanketable::grade,
+        ))
         .load::<StudentReportCard>(conn)?;
 
     let res: serde_json::Value = json!({
@@ -51,6 +56,7 @@ pub fn get_teacher_report_card(
             xuanketable::kh,
             class::km,
             xuanketable::zpcj,
+            xuanketable::grade,
         ))
         .load::<TeacherReportCard>(conn)?;
 

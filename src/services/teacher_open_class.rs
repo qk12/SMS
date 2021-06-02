@@ -31,6 +31,7 @@ pub fn teacher_open_class(
     };
 
     let temp: Option<String> = Some(sksj);
+    let temp2: Option<i32> = None;
 
     if data.is_none() {
         let new_kaike = KaiKe {
@@ -38,6 +39,7 @@ pub fn teacher_open_class(
             kh: kh.clone(),
             gh: gh.clone(),
             sksj: temp.clone(),
+            num: temp2,
         };
 
         diesel::insert_into(openclass::table)

@@ -4,12 +4,10 @@ pub mod teacher;
 pub mod department;
 pub mod term;
 pub mod admin;
+pub mod class;
 
 mod login;
 pub(crate) use login::login;
-
-mod get_classes;
-pub(crate) use get_classes::get_classes;
 
 mod opencourse;
 pub(crate) use opencourse::opencourse;

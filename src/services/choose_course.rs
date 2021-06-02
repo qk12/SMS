@@ -6,6 +6,7 @@ use crate::statics::*;
 use actix_web::web;
 use diesel::dsl::sum;
 use diesel::prelude::*;
+use diesel::sql_query;
 use serde_json::json;
 
 pub fn choose_course(
@@ -55,13 +56,20 @@ pub fn choose_course(
         .first::<Option<i32>>(conn)
         .unwrap();
 
+    eprintln!("temp: {}", temp.clone().unwrap());
+
     if data.is_some() {
-        unsafe {
-            if (data.unwrap().unwrap() as i32 + temp.unwrap()) > SCORE_LIMIT {
-                let res: serde_json::Value = json!({
-                    "res":{ "message": "超出学分"}
-                });
-                return Ok(res);
+        let temp2 = data.unwrap();
+        if temp2.is_some() {
+            eprintln!("temp2: {}", temp2.clone().unwrap());
+
+            unsafe {
+                if (temp2.unwrap() as i32 + temp.unwrap()) > SCORE_LIMIT {
+                    let res: serde_json::Value = json!({
+                        "res":{ "message": "超出学分"}
+                    });
+                    return Ok(res);
+                }
             }
         }
     }
@@ -82,6 +90,7 @@ pub fn choose_course(
     };
 
     let temp: Option<i32> = None;
+    let temp2: Option<f32> = None;
 
     if data.is_none() {
         let new_choosecourse = ChooseCourse {
@@ -90,10 +99,15 @@ pub fn choose_course(
             kh: kh.clone(),
             gh: gh.clone(),
             zpcj: temp,
+            grade: temp2,
         };
 
         diesel::insert_into(xuanketable::table)
             .values(&new_choosecourse)
+            .execute(conn)
+            .unwrap();
+
+        sql_query(format!("call change_num('{}', '{}', '{}', 1)", xq, kh, gh))
             .execute(conn)
             .unwrap();
     }

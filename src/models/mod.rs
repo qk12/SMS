@@ -1,13 +1,13 @@
 // 这里声明用于ORM的结构体
+pub mod admin;
+pub mod departments;
 pub mod students;
 pub mod teachers;
-pub mod departments;
-pub mod admin;
 pub mod terms;
+pub mod classes;
 
 use crate::schema::*;
 use chrono::NaiveDateTime;
-
 
 #[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
 pub struct Openclass {
@@ -17,6 +17,7 @@ pub struct Openclass {
     sksj: Option<String>,
     xm: Option<String>,
     gh: String,
+    num: Option<i32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
@@ -27,6 +28,7 @@ pub struct StudentCourseTable {
     sksj: Option<String>,
     xm: Option<String>,
     gh: String,
+    num: Option<i32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
@@ -41,6 +43,7 @@ pub struct StudentReportCard {
     kh: String,
     km: Option<String>,
     zpcj: Option<i32>,
+    grade: Option<f32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
@@ -50,15 +53,17 @@ pub struct TeacherReportCard {
     kh: String,
     km: Option<String>,
     zpcj: Option<i32>,
+    grade: Option<f32>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, Queryable, Insertable)]
+#[derive(Debug, Clone, Serialize, Deserialize, Queryable, Insertable, QueryableByName)]
 #[table_name = "openclass"]
 pub struct KaiKe {
     pub xq: String,
     pub kh: String,
     pub gh: String,
     pub sksj: Option<String>,
+    pub num: Option<i32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Queryable, Insertable)]
@@ -69,29 +74,5 @@ pub struct ChooseCourse {
     pub kh: String,
     pub gh: String,
     pub zpcj: Option<i32>,
+    pub grade: Option<f32>,
 }
-
-#[derive(Debug, Clone, Serialize, Deserialize, Queryable)]
-pub struct Class {
-    pub kh: String,
-    pub km: Option<String>,
-    pub xf: Option<i32>,
-    pub xs: Option<i32>,
-    pub yxh: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SlimClass {
-    kh: String,
-    km: Option<String>,
-}
-
-impl From<Class> for SlimClass {
-    fn from(raw: Class) -> Self {
-        Self {
-            kh: raw.kh,
-            km: raw.km,
-        }
-    }
-}
-

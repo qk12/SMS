@@ -30,6 +30,7 @@ table! {
         kh -> Bpchar,
         gh -> Bpchar,
         sksj -> Nullable<Varchar>,
+        num -> Nullable<Int4>,
     }
 }
 
@@ -70,6 +71,7 @@ table! {
         kh -> Bpchar,
         gh -> Bpchar,
         zpcj -> Nullable<Int4>,
+        grade -> Nullable<Float4>,
     }
 }
 

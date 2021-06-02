@@ -25,16 +25,6 @@ pub async fn login(
     Ok(HttpResponse::Ok().json(res))
 }
 
-pub async fn get_classes(pool: web::Data<Pool>) -> Result<HttpResponse, ServiceError> {
-    let res = web::block(move || services::get_classes(pool))
-        .await
-        .map_err(|e| {
-            eprintln!("{}", e);
-            e
-        })?;
-    Ok(HttpResponse::Ok().json(res))
-}
-
 #[derive(Deserialize)]
 pub struct OpenClassParams {
     term: String,
@@ -116,8 +106,6 @@ pub async fn course_table(
 
     Ok(HttpResponse::Ok().json(res))
 }
-
-
 
 #[derive(Deserialize)]
 pub struct ReportCardParams {

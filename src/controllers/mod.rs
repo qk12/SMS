@@ -3,6 +3,7 @@ pub mod teachers;
 pub mod departments;
 pub mod terms;
 pub mod admins;
+pub mod classes;
 
 mod handler;
 use actix_web::web;
@@ -14,7 +15,6 @@ pub fn route(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/api")
             .service(web::resource("/login").route(web::post().to(login)))
-            .service(web::resource("/class").route(web::get().to(get_classes)))
             .service(web::resource("/openCourse").route(web::get().to(opencourse)))
             .service(web::resource("/openCourse").route(web::post().to(teacher_open_class)))
             .service(web::resource("/courseTable").route(web::get().to(course_table)))
